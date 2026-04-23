@@ -64,7 +64,7 @@ def draw_resume(filename):
     # Title
     c.setFillColor(C_MUTED)
     c.setFont('Helvetica', 11)
-    c.drawString(PAD + 3, H - 68, 'SOFTWARE ENGINEER  ·  BACKEND & CLOUD SYSTEMS')
+    c.drawString(PAD + 3, H - 68, 'SOFTWARE ENGINEER  ·  FRONTEND, BACKEND & CLOUD SYSTEMS')
 
     # Thin rule
     c.setStrokeColor(C_RULE)
