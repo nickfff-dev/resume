@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nickson — Software Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0c0c0c;
+    --bg2: #111111;
+    --bg3: #181818;
+    --border: rgba(255,255,255,0.07);
+    --border-hover: rgba(255,255,255,0.14);
+    --accent: #c8ff3e;
+    --accent-dim: rgba(200,255,62,0.12);
+    --accent-dim2: rgba(200,255,62,0.06);
+    --text: #e8e4dc;
+    --text-muted: #888;
+    --text-dim: #555;
+    --font-display: 'Syne', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 2px; }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 3rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(12,12,12,0.92);
+    backdrop-filter: blur(12px);
+  }
+
+  .nav-logo {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 16px;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  .nav-cta {
+    font-size: 12px;
+    color: var(--bg);
+    background: var(--accent);
+    padding: 0.45rem 1.1rem;
+    text-decoration: none;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    transition: opacity 0.2s;
+  }
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* ─── CONTAINER ─── */
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 3rem; }
+
+  /* ─── SECTIONS ─── */
+  section { padding: 6rem 0; border-bottom: 1px solid var(--border); }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+
+  /* ─── HERO ─── */
+  #hero {
+    padding-top: 10rem;
+    padding-bottom: 6rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
+  }
+
+  .hero-inner { position: relative; z-index: 1; }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(200,255,62,0.3);
+    background: var(--accent-dim2);
+    padding: 0.35rem 0.85rem;
+    margin-bottom: 2rem;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: blink 2s ease-in-out infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .hero-headline {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.04em;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-headline .accent-text { color: var(--accent); }
+
+  .hero-sub {
+    font-size: 15px;
+    color: var(--text-muted);
+    max-width: 520px;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  .btn-primary {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--bg);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    padding: 0.75rem 1.8rem;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+
+  .btn-outline {
+    display: inline-block;
+    border: 1px solid var(--border-hover);
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    padding: 0.75rem 1.8rem;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--text-muted); color: var(--text); }
+
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    margin-top: 4rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  /* ─── PROJECTS ─── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1px;
+    border: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+
+  .project-card {
+    background: var(--bg2);
+    padding: 1.75rem;
+    transition: background 0.2s;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+
+  .project-card:hover { background: var(--bg3); }
+  .project-card:hover::before { transform: scaleX(1); }
+
+  .project-num {
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.75rem;
+  }
+
+  .project-name {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.6rem;
+    line-height: 1.3;
+  }
+
+  .project-desc {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    flex: 1;
+    margin-bottom: 1.25rem;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .tag {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    padding: 0.2rem 0.6rem;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  .project-links { display: flex; gap: 1rem; }
+
+  .project-link {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: color 0.2s;
+  }
+
+  .project-link:hover { color: var(--accent); }
+
+  .project-link svg {
+    width: 10px; height: 10px;
+    stroke: currentColor;
+    fill: none;
+  }
+
+  .project-link.live { color: var(--accent); }
+  .project-link.live:hover { opacity: 0.8; }
+
+  /* ─── SKILLS ─── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+    margin-top: 3rem;
+  }
+
+  .skill-group {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+  }
+
+  .skill-group-title {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .skill-list { list-style: none; }
+
+  .skill-list li {
+    font-size: 13px;
+    color: var(--text-muted);
+    padding: 0.3rem 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .skill-list li:last-child { border-bottom: none; }
+
+  .skill-list li::before {
+    content: '—';
+    color: var(--text-dim);
+    font-size: 10px;
+  }
+
+  /* ─── EXPERIENCE ─── */
+  .experience-list { margin-top: 3rem; }
+
+  .exp-item {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 2rem;
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .exp-item:last-child { border-bottom: none; }
+
+  .exp-meta { padding-top: 0.15rem; }
+
+  .exp-period {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
+  .exp-company {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .exp-role {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+  }
+
+  .exp-points { list-style: none; }
+
+  .exp-points li {
+    font-size: 13px;
+    color: var(--text-muted);
+    padding: 0.25rem 0;
+    padding-left: 1.2rem;
+    position: relative;
+    line-height: 1.6;
+  }
+
+  .exp-points li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 11px;
+  }
+
+  /* ─── WORDPRESS ─── */
+  .wp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 3rem;
+  }
+
+  .wp-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 1.75rem;
+  }
+
+  .wp-card-title {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+  }
+
+  .wp-card-text {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  .wp-card-text ul {
+    list-style: none;
+    margin-top: 0.5rem;
+  }
+
+  .wp-card-text li {
+    padding: 0.2rem 0;
+    padding-left: 1rem;
+    position: relative;
+  }
+
+  .wp-card-text li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  /* ─── EDUCATION ─── */
+  .edu-block {
+    margin-top: 3rem;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    padding: 2rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .edu-title {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.3rem;
+  }
+
+  .edu-sub {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .edu-period {
+    font-size: 12px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ─── CONTACT ─── */
+  #contact { border-bottom: none; }
+
+  .contact-inner {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .contact-headline {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: var(--text);
+    line-height: 1.05;
+    margin-bottom: 1.25rem;
+  }
+
+  .contact-sub {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 2.5rem;
+    line-height: 1.7;
+  }
+
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+
+  .contact-link {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 0.6rem 1.3rem;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .contact-link:hover { border-color: var(--text-muted); color: var(--text); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    padding: 2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.06em;
+  }
+
+  /* ─── SCROLL ANIMATIONS ─── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: none; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .container { padding: 0 1.5rem; }
+    section { padding: 4rem 0; }
+    .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    .wp-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#hero">NR</a>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#wordpress">WordPress</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a class="nav-cta" href="mailto:qendev87@gmail.com">Hire me</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-badge">Available for new opportunities</div>
+      <h1 class="hero-headline">
+        Backend systems<br>
+        that <span class="accent-text">actually ship.</span>
+      </h1>
+      <p class="hero-sub">
+        I'm Nickson — a full-stack engineer specializing in scalable frontend and backend infrastructure, payment systems, and cloud-native deployments. I build production systems, not just demos.
+      </p>
+      <div class="hero-actions">
+        <a class="btn-primary" href="#projects">View my work</a>
+        <a class="btn-outline" href="https://github.com/nickfff-dev" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+      <div class="hero-stats">
+        <div class="fade-in">
+          <div class="stat-num">7+</div>
+          <div class="stat-label">Years experience</div>
+        </div>
+        <div class="fade-in">
+          <div class="stat-num">10+</div>
+          <div class="stat-label">Production systems</div>
+        </div>
+        <div class="fade-in">
+          <div class="stat-num">50%</div>
+          <div class="stat-label">Cost reduction via OSS</div>
+        </div>
+        <div class="fade-in">
+          <div class="stat-num">5+</div>
+          <div class="stat-label">Cloud platforms</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <div class="fade-in">
+      <p class="section-label">Selected Work</p>
+      <h2 class="section-title">Projects & Repositories</h2>
+      <p style="color: var(--text-muted); font-size: 13px; max-width: 560px;">Production systems, open-source clones, and engineering explorations — each built to solve a real problem.</p>
+    </div>
+
+    <div class="projects-grid">
+
+      <div class="project-card fade-in">
+        <div class="project-num">01</div>
+        <div class="project-name">AirBnB Clone v2</div>
+        <div class="project-desc">A full-stack AirBnB replica with a custom Python/Flask web framework, MySQL persistence layer, file storage engine, and HAProxy load balancing. Demonstrates production-grade architecture with multiple storage backends and RESTful APIs.</div>
+        <div class="project-tags">
+          <span class="tag">Python</span>
+          <span class="tag">Flask</span>
+          <span class="tag">MySQL</span>
+          <span class="tag">HAProxy</span>
+          <span class="tag">SQLAlchemy</span>
+        </div>
+        <div class="project-links">
+          <a class="project-link" href="https://github.com/nickfff-dev/AirBnB_clone_v2" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+            Source
+          </a>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-num">02</div>
+        <div class="project-name">Algorithm Visualizer</div>
+        <div class="project-desc">Interactive visual learning tool for sorting algorithms (bubble sort, quicksort, merge sort, etc.) with real-time animation of array comparisons and swaps. Built for engineers and CS learners who think visually.</div>
+        <div class="project-tags">
+          <span class="tag">React</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">Animation</span>
+          <span class="tag">Vercel</span>
+        </div>
+        <div class="project-links">
+          <a class="project-link live" href="https://algo-visual-two.vercel.app/" target="_blank" rel="noopener">↗ Live Demo</a>
+          <a class="project-link" href="https://github.com/nickfff-dev/algo_visual" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+            Source
+          </a>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-num">03</div>
+        <div class="project-name">Files Manager API</div>
+        <div class="project-desc">A production-ready file management platform built with Node.js, Redis, and MongoDB. Features background processing via Bull queues, user authentication with tokens, file upload/download, image thumbnail generation, and permission management.</div>
+        <div class="project-tags">
+          <span class="tag">Node.js</span>
+          <span class="tag">Redis</span>
+          <span class="tag">MongoDB</span>
+          <span class="tag">Bull</span>
+          <span class="tag">REST API</span>
+        </div>
+        <div class="project-links">
+          <a class="project-link" href="https://github.com/nickfff-dev/alx-files_manager" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+            Source
+          </a>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-num">04</div>
+        <div class="project-name">EasyBets Platform</div>
+        <div class="project-desc">A full-stack sports betting application with real-time odds, user account management, and secure transaction flows. Demonstrates payment integration patterns, state management under high concurrency, and responsive betting interfaces.</div>
+        <div class="project-tags">
+          <span class="tag">React</span>
+          <span class="tag">Node.js</span>
+          <span class="tag">Payments</span>
+          <span class="tag">Real-time</span>
+        </div>
+        <div class="project-links">
+          <a class="project-link live" href="http://easybets.vercel.app/" target="_blank" rel="noopener">↗ Live Demo</a>
+          <a class="project-link" href="https://github.com/nickfff-dev/easybets" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+            Source
+          </a>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-num">05</div>
+        <div class="project-name">Grant Tracker</div>
+        <div class="project-desc">A grant lifecycle management system for nonprofits and public institutions. Tracks application status, deadlines, reporting requirements, and fund allocation across multiple grants — replacing error-prone spreadsheet workflows with a structured web app.</div>
+        <div class="project-tags">
+          <span class="tag">React</span>
+          <span class="tag">Node.js</span>
+          <span class="tag">PostgreSQL</span>
+          <span class="tag">Dashboard</span>
+        </div>
+        <div class="project-links">
+          <a class="project-link live" href="https://granttrackerv1.vercel.app/" target="_blank" rel="noopener">↗ Live Demo</a>
+          <a class="project-link" href="https://github.com/nickfff-dev/granttrackerv1" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+            Source
+          </a>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-num">06</div>
+        <div class="project-name">Catcha Flight</div>
+        <div class="project-desc">A flight price comparison engine that aggregates fares across carriers and surfaces the cheapest available routes. Features smart caching, date-range scanning, and a clean results interface — tackling a real pain point for budget-conscious travelers.</div>
+        <div class="project-tags">
+          <span class="tag">Python</span>
+          <span class="tag">APIs</span>
+          <span class="tag">Caching</span>
+          <span class="tag">React</span>
+        </div>
+        <div class="project-links">
+          <a class="project-link live" href="https://catcha-flight.vercel.app/" target="_blank" rel="noopener">↗ Live Demo</a>
+          <a class="project-link" href="https://github.com/nickfff-dev/cheapest_flights" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+            Source
+          </a>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-num">07</div>
+        <div class="project-name">Microtasks App</div>
+        <div class="project-desc">A responsive task management platform built as a frontend engineering evaluation. Features drag-and-drop task boards, priority filtering, real-time state updates, and a clean UX — demonstrating production frontend engineering discipline under spec constraints.</div>
+        <div class="project-tags">
+          <span class="tag">React</span>
+          <span class="tag">TypeScript</span>
+          <span class="tag">State management</span>
+          <span class="tag">DnD</span>
+        </div>
+        <div class="project-links">
+          <a class="project-link live" href="https://microtasks.vercel.app/" target="_blank" rel="noopener">↗ Live Demo</a>
+          <a class="project-link" href="https://github.com/nickfff-dev/frontend-engineer-eval/tree/phase2" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+            Source
+          </a>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-num">08</div>
+        <div class="project-name">AI Image Upscaler</div>
+        <div class="project-desc">A web-based AI image upscaling tool that integrates with ML upscaling models to enhance image resolution. Handles upload, server-side processing pipeline, and delivery of enhanced images — bridging ML capability with a usable web interface.</div>
+        <div class="project-tags">
+          <span class="tag">Python</span>
+          <span class="tag">AI/ML</span>
+          <span class="tag">Image processing</span>
+          <span class="tag">API</span>
+        </div>
+        <div class="project-links">
+          <a class="project-link" href="https://github.com/nickfff-dev/ai-image-upscaling" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+            Source
+          </a>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-num">09</div>
+        <div class="project-name">Inspection Report Generator</div>
+        <div class="project-desc">Automates the generation of professional property dimensions inspection reports from structured input data. Eliminates manual report writing for field inspectors — outputting formatted PDFs with measurements, observations, and compliance notes.</div>
+        <div class="project-tags">
+          <span class="tag">Node.js</span>
+          <span class="tag">PDF generation</span>
+          <span class="tag">Automation</span>
+          <span class="tag">Templates</span>
+        </div>
+        <div class="project-links">
+          <a class="project-link" href="https://github.com/nickfff-dev/dimensions-inspection-report-generator" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+            Source
+          </a>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-num">10</div>
+        <div class="project-name">Online Book Store</div>
+        <div class="project-desc">A full-stack e-commerce platform for books with product catalog, search, cart, and order management. Built with a clean REST API backend and a responsive React storefront, covering the full purchase flow from browse to checkout.</div>
+        <div class="project-tags">
+          <span class="tag">React</span>
+          <span class="tag">Node.js</span>
+          <span class="tag">E-commerce</span>
+          <span class="tag">REST API</span>
+        </div>
+        <div class="project-links">
+          <a class="project-link" href="https://github.com/nickfff-dev/OnlineBookStore" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+            Source
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="fade-in">
+      <p class="section-label">Technical Stack</p>
+      <h2 class="section-title">Skills & Tools</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-group fade-in">
+        <div class="skill-group-title">Backend</div>
+        <ul class="skill-list">
+          <li>Node.js / Express</li>
+          <li>Python / Flask</li>
+          <li>Rust</li>
+          <li>C (systems)</li>
+          <li>REST API design</li>
+          <li>Background workers / queues</li>
+        </ul>
+      </div>
+      <div class="skill-group fade-in">
+        <div class="skill-group-title">Frontend</div>
+        <ul class="skill-list">
+          <li>React / TypeScript</li>
+          <li>Modern CSS / Tailwind</li>
+          <li>State management</li>
+          <li>Responsive design</li>
+          <li>Performance optimization</li>
+        </ul>
+      </div>
+      <div class="skill-group fade-in">
+        <div class="skill-group-title">DevOps & Cloud</div>
+        <ul class="skill-list">
+          <li>Docker / Kubernetes</li>
+          <li>AWS / GCP / DigitalOcean</li>
+          <li>GitHub Actions</li>
+          <li>Jenkins / GitLab CI</li>
+          <li>Ansible / Puppet / Chef</li>
+          <li>Nginx / HAProxy</li>
+        </ul>
+      </div>
+      <div class="skill-group fade-in">
+        <div class="skill-group-title">Data & Storage</div>
+        <ul class="skill-list">
+          <li>PostgreSQL / MySQL</li>
+          <li>MongoDB / Redis</li>
+          <li>SQLAlchemy / ORMs</li>
+          <li>Database design</li>
+          <li>Query optimization</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <div class="fade-in">
+      <p class="section-label">Work History</p>
+      <h2 class="section-title">Experience</h2>
+    </div>
+    <div class="experience-list">
+
+      <div class="exp-item fade-in">
+        <div class="exp-meta">
+          <div class="exp-period">2022 — 2025</div>
+          <div class="exp-company">E.T. Technology Enterprises</div>
+        </div>
+        <div>
+          <div class="exp-role">Lead Engineer</div>
+          <ul class="exp-points">
+            <li>Led end-to-end development, deployment, and maintenance of multiple production web applications and cloud servers.</li>
+            <li>Integrated open-source tools into production workflows, reducing software licensing costs by 50%.</li>
+            <li>Architected scalable backend systems with CI/CD pipelines for reliable, zero-downtime deployments.</li>
+            <li>Supported internal teams in adopting ICT tools and improving system usage efficiency.</li>
+            <li>Managed cloud infrastructure across AWS and DigitalOcean, including containerized deployments with Docker and Kubernetes.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-item fade-in">
+        <div class="exp-meta">
+          <div class="exp-period">2018 — Present</div>
+          <div class="exp-company">Independent</div>
+        </div>
+        <div>
+          <div class="exp-role">Freelance Full-Stack Developer</div>
+          <ul class="exp-points">
+            <li>Built and maintained custom web applications and REST APIs for clients sourced from platforms including Reddit and direct referrals.</li>
+            <li>Delivered WordPress sites with advanced customizations — custom post types, referral systems, SEO, and plugin development.</li>
+            <li>Collaborated with distributed teams to deploy cloud-based solutions on time and within scope.</li>
+            <li>Provided technical guidance and clear documentation for non-technical stakeholders.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-item fade-in">
+        <div class="exp-meta">
+          <div class="exp-period">2016 — 2025</div>
+          <div class="exp-company">Jumia Kenya / Uganda</div>
+        </div>
+        <div>
+          <div class="exp-role">Senior Content Officer</div>
+          <ul class="exp-points">
+            <li>Managed website frontend product display and ensured accurate, high-quality product representation at scale.</li>
+            <li>Developed and maintained advanced Excel-based KPI trackers that improved reporting accuracy across teams.</li>
+            <li>Coordinated cross-functional workflows, improving operational communication and reducing errors in live product data.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- WORDPRESS -->
+<section id="wordpress">
+  <div class="container">
+    <div class="fade-in">
+      <p class="section-label">Platform Expertise</p>
+      <h2 class="section-title">WordPress Development</h2>
+      <p style="color: var(--text-muted); font-size: 13px; max-width: 560px; margin-bottom: 1rem;">Beyond custom frameworks — I build and maintain real-world WordPress deployments with full custom engineering, not just theme installations.</p>
+    </div>
+    <div class="wp-grid fade-in">
+      <div class="wp-card">
+        <div class="wp-card-title">UI & Page Building</div>
+        <div class="wp-card-text">
+          Proficient in building polished frontend layouts using:
+          <ul>
+            <li>Elementor (including Pro)</li>
+            <li>Beaver Builder, Divi, and similar builders</li>
+            <li>Custom block patterns and full-site editing</li>
+            <li>Mobile-first, accessible design across all builders</li>
+          </ul>
+        </div>
+      </div>
+      <div class="wp-card">
+        <div class="wp-card-title">Custom Development</div>
+        <div class="wp-card-text">
+          Engineering under the hood:
+          <ul>
+            <li>Custom Post Types (CPTs) with custom meta fields</li>
+            <li>Custom plugin development and modification</li>
+            <li>PHP hooks, filters, and theme function overrides</li>
+            <li>WooCommerce customization and payment integration</li>
+          </ul>
+        </div>
+      </div>
+      <div class="wp-card">
+        <div class="wp-card-title">Full-Site Setup & Operations</div>
+        <div class="wp-card-text">
+          End-to-end ownership from zero:
+          <ul>
+            <li>Server provisioning — DigitalOcean, Hostinger, cPanel</li>
+            <li>WordPress installation, theme setup, and hardening</li>
+            <li>SSL, DNS, redirects, caching (WP Rocket, LiteSpeed)</li>
+            <li>Staging environments and backup workflows</li>
+          </ul>
+        </div>
+      </div>
+      <div class="wp-card">
+        <div class="wp-card-title">SEO, Performance & Growth</div>
+        <div class="wp-card-text">
+          Long-term site health and conversion:
+          <ul>
+            <li>On-page SEO via Yoast / Rank Math</li>
+            <li>Core Web Vitals optimization</li>
+            <li>Referral and affiliate system integration</li>
+            <li>Ongoing maintenance, updates, and performance tuning</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="container">
+    <div class="fade-in">
+      <p class="section-label">Education</p>
+      <h2 class="section-title">Training</h2>
+    </div>
+    <div class="edu-block fade-in">
+      <div>
+        <div class="edu-title">ALX Software Engineering</div>
+        <div class="edu-sub">Backend track — intensive program covering systems programming, full-stack development, DevOps, and cloud infrastructure. Formerly Holberton School.</div>
+      </div>
+      <div class="edu-period">Feb 2023 — Dec 2024</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-inner fade-in">
+      <p class="section-label" style="text-align:center;">Let's work together</p>
+      <h2 class="contact-headline">Ready to build<br>something real?</h2>
+      <p class="contact-sub">I'm open to full-time roles, contract work, and interesting freelance projects. If you need production systems built properly, let's talk.</p>
+      <a class="btn-primary" href="mailto:qendev87@gmail.com">qendev87@gmail.com</a>
+      <div class="contact-links">
+        <a class="contact-link" href="https://github.com/nickfff-dev" target="_blank" rel="noopener">GitHub</a>
+        <a class="contact-link" href="https://www.linkedin.com/in/nickson-makori-8a442320a" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="contact-link" href="https://calendly.com/qendev87/30min" target="_blank" rel="noopener">Book a call</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2025 Nickson — Software Engineer</span>
+  <span style="color: var(--text-dim);">Built with HTML, CSS & precision.</span>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
