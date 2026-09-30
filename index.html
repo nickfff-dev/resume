@@ -1,1074 +1,1171 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nickson — Software Engineer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-  :root {
-    --bg: #0c0c0c;
-    --bg2: #111111;
-    --bg3: #181818;
-    --border: rgba(255,255,255,0.07);
-    --border-hover: rgba(255,255,255,0.14);
-    --accent: #c8ff3e;
-    --accent-dim: rgba(200,255,62,0.12);
-    --accent-dim2: rgba(200,255,62,0.06);
-    --text: #e8e4dc;
-    --text-muted: #888;
-    --text-dim: #555;
-    --font-display: 'Syne', sans-serif;
-    --font-mono: 'IBM Plex Mono', monospace;
-  }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font-mono);
-    font-size: 14px;
-    line-height: 1.7;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-  }
-
-  /* ─── SCROLLBAR ─── */
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 2px; }
-
-  /* ─── NAV ─── */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 1.2rem 3rem;
-    border-bottom: 1px solid var(--border);
-    background: rgba(12,12,12,0.92);
-    backdrop-filter: blur(12px);
-  }
-
-  .nav-logo {
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: 16px;
-    letter-spacing: -0.02em;
-    color: var(--accent);
-    text-decoration: none;
-  }
-
-  .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a {
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--text); }
-
-  .nav-cta {
-    font-size: 12px;
-    color: var(--bg);
-    background: var(--accent);
-    padding: 0.45rem 1.1rem;
-    text-decoration: none;
-    font-weight: 500;
-    letter-spacing: 0.05em;
-    transition: opacity 0.2s;
-  }
-  .nav-cta:hover { opacity: 0.85; }
-
-  /* ─── CONTAINER ─── */
-  .container { max-width: 1100px; margin: 0 auto; padding: 0 3rem; }
-
-  /* ─── SECTIONS ─── */
-  section { padding: 6rem 0; border-bottom: 1px solid var(--border); }
-
-  .section-label {
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 0.6rem;
-  }
-
-  .section-title {
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: -0.03em;
-    color: var(--text);
-    margin-bottom: 1rem;
-  }
-
-  /* ─── HERO ─── */
-  #hero {
-    padding-top: 10rem;
-    padding-bottom: 6rem;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-grid-bg {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(var(--border) 1px, transparent 1px),
-      linear-gradient(90deg, var(--border) 1px, transparent 1px);
-    background-size: 60px 60px;
-    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
-  }
-
-  .hero-inner { position: relative; z-index: 1; }
-
-  .hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--accent);
-    border: 1px solid rgba(200,255,62,0.3);
-    background: var(--accent-dim2);
-    padding: 0.35rem 0.85rem;
-    margin-bottom: 2rem;
-  }
-
-  .hero-badge::before {
-    content: '';
-    width: 6px; height: 6px;
-    background: var(--accent);
-    border-radius: 50%;
-    animation: blink 2s ease-in-out infinite;
-  }
-
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
-
-  .hero-headline {
-    font-family: var(--font-display);
-    font-size: clamp(3rem, 7vw, 5.5rem);
-    font-weight: 800;
-    line-height: 1.0;
-    letter-spacing: -0.04em;
-    color: var(--text);
-    margin-bottom: 1.5rem;
-  }
-
-  .hero-headline .accent-text { color: var(--accent); }
-
-  .hero-sub {
-    font-size: 15px;
-    color: var(--text-muted);
-    max-width: 520px;
-    line-height: 1.8;
-    margin-bottom: 2.5rem;
-  }
-
-  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
-
-  .btn-primary {
-    display: inline-block;
-    background: var(--accent);
-    color: var(--bg);
-    font-family: var(--font-mono);
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    padding: 0.75rem 1.8rem;
-    text-decoration: none;
-    transition: opacity 0.2s;
-  }
-  .btn-primary:hover { opacity: 0.85; }
-
-  .btn-outline {
-    display: inline-block;
-    border: 1px solid var(--border-hover);
-    color: var(--text-muted);
-    font-family: var(--font-mono);
-    font-size: 13px;
-    letter-spacing: 0.06em;
-    padding: 0.75rem 1.8rem;
-    text-decoration: none;
-    transition: border-color 0.2s, color 0.2s;
-  }
-  .btn-outline:hover { border-color: var(--text-muted); color: var(--text); }
-
-  .hero-stats {
-    display: flex;
-    gap: 3rem;
-    margin-top: 4rem;
-    padding-top: 2.5rem;
-    border-top: 1px solid var(--border);
-  }
-
-  .stat-num {
-    font-family: var(--font-display);
-    font-size: 2rem;
-    font-weight: 800;
-    color: var(--accent);
-    letter-spacing: -0.04em;
-    line-height: 1;
-    margin-bottom: 0.25rem;
-  }
-
-  .stat-label {
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--text-dim);
-  }
-
-  /* ─── PROJECTS ─── */
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1px;
-    border: 1px solid var(--border);
-    margin-top: 3rem;
-  }
-
-  .project-card {
-    background: var(--bg2);
-    padding: 1.75rem;
-    transition: background 0.2s;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .project-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: var(--accent);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.3s ease;
-  }
-
-  .project-card:hover { background: var(--bg3); }
-  .project-card:hover::before { transform: scaleX(1); }
-
-  .project-num {
-    font-size: 11px;
-    color: var(--text-dim);
-    letter-spacing: 0.1em;
-    margin-bottom: 0.75rem;
-  }
-
-  .project-name {
-    font-family: var(--font-display);
-    font-size: 17px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 0.6rem;
-    line-height: 1.3;
-  }
-
-  .project-desc {
-    font-size: 12.5px;
-    color: var(--text-muted);
-    line-height: 1.7;
-    flex: 1;
-    margin-bottom: 1.25rem;
-  }
-
-  .project-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .tag {
-    font-size: 10px;
-    letter-spacing: 0.08em;
-    padding: 0.2rem 0.6rem;
-    border: 1px solid var(--border);
-    color: var(--text-dim);
-    text-transform: uppercase;
-  }
-
-  .project-links { display: flex; gap: 1rem; }
-
-  .project-link {
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-    transition: color 0.2s;
-  }
-
-  .project-link:hover { color: var(--accent); }
-
-  .project-link svg {
-    width: 10px; height: 10px;
-    stroke: currentColor;
-    fill: none;
-  }
-
-  .project-link.live { color: var(--accent); }
-  .project-link.live:hover { opacity: 0.8; }
-
-  /* ─── SKILLS ─── */
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 1rem;
-    margin-top: 3rem;
-  }
-
-  .skill-group {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    padding: 1.5rem;
-  }
-
-  .skill-group-title {
-    font-family: var(--font-display);
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 1rem;
-  }
-
-  .skill-list { list-style: none; }
-
-  .skill-list li {
-    font-size: 13px;
-    color: var(--text-muted);
-    padding: 0.3rem 0;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .skill-list li:last-child { border-bottom: none; }
-
-  .skill-list li::before {
-    content: '—';
-    color: var(--text-dim);
-    font-size: 10px;
-  }
-
-  /* ─── EXPERIENCE ─── */
-  .experience-list { margin-top: 3rem; }
-
-  .exp-item {
-    display: grid;
-    grid-template-columns: 180px 1fr;
-    gap: 2rem;
-    padding: 2rem 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .exp-item:last-child { border-bottom: none; }
-
-  .exp-meta { padding-top: 0.15rem; }
-
-  .exp-period {
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    margin-bottom: 0.4rem;
-  }
-
-  .exp-company {
-    font-size: 12px;
-    color: var(--text-muted);
-  }
-
-  .exp-role {
-    font-family: var(--font-display);
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 0.75rem;
-    letter-spacing: -0.02em;
-  }
-
-  .exp-points { list-style: none; }
-
-  .exp-points li {
-    font-size: 13px;
-    color: var(--text-muted);
-    padding: 0.25rem 0;
-    padding-left: 1.2rem;
-    position: relative;
-    line-height: 1.6;
-  }
-
-  .exp-points li::before {
-    content: '→';
-    position: absolute;
-    left: 0;
-    color: var(--accent);
-    font-size: 11px;
-  }
-
-  /* ─── WORDPRESS ─── */
-  .wp-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin-top: 3rem;
-  }
-
-  .wp-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    padding: 1.75rem;
-  }
-
-  .wp-card-title {
-    font-family: var(--font-display);
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 0.75rem;
-  }
-
-  .wp-card-text {
-    font-size: 12.5px;
-    color: var(--text-muted);
-    line-height: 1.7;
-  }
-
-  .wp-card-text ul {
-    list-style: none;
-    margin-top: 0.5rem;
-  }
-
-  .wp-card-text li {
-    padding: 0.2rem 0;
-    padding-left: 1rem;
-    position: relative;
-  }
-
-  .wp-card-text li::before {
-    content: '·';
-    position: absolute;
-    left: 0;
-    color: var(--accent);
-  }
-
-  /* ─── EDUCATION ─── */
-  .edu-block {
-    margin-top: 3rem;
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--accent);
-    padding: 2rem 2.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-
-  .edu-title {
-    font-family: var(--font-display);
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 0.3rem;
-  }
-
-  .edu-sub {
-    font-size: 13px;
-    color: var(--text-muted);
-  }
-
-  .edu-period {
-    font-size: 12px;
-    color: var(--text-dim);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  /* ─── CONTACT ─── */
-  #contact { border-bottom: none; }
-
-  .contact-inner {
-    text-align: center;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-
-  .contact-headline {
-    font-family: var(--font-display);
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 800;
-    letter-spacing: -0.04em;
-    color: var(--text);
-    line-height: 1.05;
-    margin-bottom: 1.25rem;
-  }
-
-  .contact-sub {
-    color: var(--text-muted);
-    font-size: 14px;
-    margin-bottom: 2.5rem;
-    line-height: 1.7;
-  }
-
-  .contact-links {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-top: 2rem;
-  }
-
-  .contact-link {
-    font-size: 12px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    text-decoration: none;
-    border: 1px solid var(--border);
-    padding: 0.6rem 1.3rem;
-    transition: border-color 0.2s, color 0.2s;
-  }
-
-  .contact-link:hover { border-color: var(--text-muted); color: var(--text); }
-
-  /* ─── FOOTER ─── */
-  footer {
-    padding: 2rem 3rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid var(--border);
-    font-size: 11px;
-    color: var(--text-dim);
-    letter-spacing: 0.06em;
-  }
-
-  /* ─── SCROLL ANIMATIONS ─── */
-  .fade-in {
-    opacity: 0;
-    transform: translateY(18px);
-    transition: opacity 0.55s ease, transform 0.55s ease;
-  }
-  .fade-in.visible { opacity: 1; transform: none; }
-
-  /* ─── RESPONSIVE ─── */
-  @media (max-width: 768px) {
-    nav { padding: 1rem 1.5rem; }
-    .nav-links { display: none; }
-    .container { padding: 0 1.5rem; }
-    section { padding: 4rem 0; }
-    .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
-    .wp-grid { grid-template-columns: 1fr; }
-    .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
-    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
-  }
-</style>
-</head>
-<body>
-
-<!-- NAV -->
-<nav>
-  <a class="nav-logo" href="#hero">NR</a>
-  <ul class="nav-links">
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#wordpress">WordPress</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <a class="nav-cta" href="mailto:qendev87@gmail.com">Hire me</a>
-</nav>
-
-<!-- HERO -->
-<section id="hero">
-  <div class="container">
-    <div class="hero-inner">
-      <div class="hero-badge">Available for new opportunities</div>
-      <h1 class="hero-headline">
-        Backend systems<br>
-        that <span class="accent-text">actually ship.</span>
-      </h1>
-      <p class="hero-sub">
-        I'm Nickson — a full-stack engineer specializing in scalable frontend and backend infrastructure, payment systems, and cloud-native deployments. I build production systems, not just demos.
-      </p>
-      <div class="hero-actions">
-        <a class="btn-primary" href="#projects">View my work</a>
-        <a class="btn-outline" href="https://github.com/nickfff-dev" target="_blank" rel="noopener">GitHub ↗</a>
-      </div>
-      <div class="hero-stats">
-        <div class="fade-in">
-          <div class="stat-num">7+</div>
-          <div class="stat-label">Years experience</div>
-        </div>
-        <div class="fade-in">
-          <div class="stat-num">10+</div>
-          <div class="stat-label">Production systems</div>
-        </div>
-        <div class="fade-in">
-          <div class="stat-num">50%</div>
-          <div class="stat-label">Cost reduction via OSS</div>
-        </div>
-        <div class="fade-in">
-          <div class="stat-num">5+</div>
-          <div class="stat-label">Cloud platforms</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PROJECTS -->
-<section id="projects">
-  <div class="container">
-    <div class="fade-in">
-      <p class="section-label">Selected Work</p>
-      <h2 class="section-title">Projects & Repositories</h2>
-      <p style="color: var(--text-muted); font-size: 13px; max-width: 560px;">Production systems, open-source clones, and engineering explorations — each built to solve a real problem.</p>
-    </div>
-
-    <div class="projects-grid">
-
-      <div class="project-card fade-in">
-        <div class="project-num">01</div>
-        <div class="project-name">AirBnB Clone v2</div>
-        <div class="project-desc">A full-stack AirBnB replica with a custom Python/Flask web framework, MySQL persistence layer, file storage engine, and HAProxy load balancing. Demonstrates production-grade architecture with multiple storage backends and RESTful APIs.</div>
-        <div class="project-tags">
-          <span class="tag">Python</span>
-          <span class="tag">Flask</span>
-          <span class="tag">MySQL</span>
-          <span class="tag">HAProxy</span>
-          <span class="tag">SQLAlchemy</span>
-        </div>
-        <div class="project-links">
-          <a class="project-link" href="https://github.com/nickfff-dev/AirBnB_clone_v2" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-            Source
-          </a>
-        </div>
-      </div>
-
-      <div class="project-card fade-in">
-        <div class="project-num">02</div>
-        <div class="project-name">Algorithm Visualizer</div>
-        <div class="project-desc">Interactive visual learning tool for sorting algorithms (bubble sort, quicksort, merge sort, etc.) with real-time animation of array comparisons and swaps. Built for engineers and CS learners who think visually.</div>
-        <div class="project-tags">
-          <span class="tag">React</span>
-          <span class="tag">JavaScript</span>
-          <span class="tag">Animation</span>
-          <span class="tag">Vercel</span>
-        </div>
-        <div class="project-links">
-          <a class="project-link live" href="https://algo-visual-two.vercel.app/" target="_blank" rel="noopener">↗ Live Demo</a>
-          <a class="project-link" href="https://github.com/nickfff-dev/algo_visual" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-            Source
-          </a>
-        </div>
-      </div>
-
-      <div class="project-card fade-in">
-        <div class="project-num">03</div>
-        <div class="project-name">Files Manager API</div>
-        <div class="project-desc">A production-ready file management platform built with Node.js, Redis, and MongoDB. Features background processing via Bull queues, user authentication with tokens, file upload/download, image thumbnail generation, and permission management.</div>
-        <div class="project-tags">
-          <span class="tag">Node.js</span>
-          <span class="tag">Redis</span>
-          <span class="tag">MongoDB</span>
-          <span class="tag">Bull</span>
-          <span class="tag">REST API</span>
-        </div>
-        <div class="project-links">
-          <a class="project-link" href="https://github.com/nickfff-dev/alx-files_manager" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-            Source
-          </a>
-        </div>
-      </div>
-
-      <div class="project-card fade-in">
-        <div class="project-num">04</div>
-        <div class="project-name">EasyBets Platform</div>
-        <div class="project-desc">A full-stack sports betting application with real-time odds, user account management, and secure transaction flows. Demonstrates payment integration patterns, state management under high concurrency, and responsive betting interfaces.</div>
-        <div class="project-tags">
-          <span class="tag">React</span>
-          <span class="tag">Node.js</span>
-          <span class="tag">Payments</span>
-          <span class="tag">Real-time</span>
-        </div>
-        <div class="project-links">
-          <a class="project-link live" href="http://easybets.vercel.app/" target="_blank" rel="noopener">↗ Live Demo</a>
-          <a class="project-link" href="https://github.com/nickfff-dev/easybets" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-            Source
-          </a>
-        </div>
-      </div>
-
-      <div class="project-card fade-in">
-        <div class="project-num">05</div>
-        <div class="project-name">Grant Tracker</div>
-        <div class="project-desc">A grant lifecycle management system for nonprofits and public institutions. Tracks application status, deadlines, reporting requirements, and fund allocation across multiple grants — replacing error-prone spreadsheet workflows with a structured web app.</div>
-        <div class="project-tags">
-          <span class="tag">React</span>
-          <span class="tag">Node.js</span>
-          <span class="tag">PostgreSQL</span>
-          <span class="tag">Dashboard</span>
-        </div>
-        <div class="project-links">
-          <a class="project-link live" href="https://granttrackerv1.vercel.app/" target="_blank" rel="noopener">↗ Live Demo</a>
-          <a class="project-link" href="https://github.com/nickfff-dev/granttrackerv1" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-            Source
-          </a>
-        </div>
-      </div>
-
-      <div class="project-card fade-in">
-        <div class="project-num">06</div>
-        <div class="project-name">Catcha Flight</div>
-        <div class="project-desc">A flight price comparison engine that aggregates fares across carriers and surfaces the cheapest available routes. Features smart caching, date-range scanning, and a clean results interface — tackling a real pain point for budget-conscious travelers.</div>
-        <div class="project-tags">
-          <span class="tag">Python</span>
-          <span class="tag">APIs</span>
-          <span class="tag">Caching</span>
-          <span class="tag">React</span>
-        </div>
-        <div class="project-links">
-          <a class="project-link live" href="https://catcha-flight.vercel.app/" target="_blank" rel="noopener">↗ Live Demo</a>
-          <a class="project-link" href="https://github.com/nickfff-dev/cheapest_flights" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-            Source
-          </a>
-        </div>
-      </div>
-
-      <div class="project-card fade-in">
-        <div class="project-num">07</div>
-        <div class="project-name">Microtasks App</div>
-        <div class="project-desc">A responsive task management platform built as a frontend engineering evaluation. Features drag-and-drop task boards, priority filtering, real-time state updates, and a clean UX — demonstrating production frontend engineering discipline under spec constraints.</div>
-        <div class="project-tags">
-          <span class="tag">React</span>
-          <span class="tag">TypeScript</span>
-          <span class="tag">State management</span>
-          <span class="tag">DnD</span>
-        </div>
-        <div class="project-links">
-          <a class="project-link live" href="https://microtasks.vercel.app/" target="_blank" rel="noopener">↗ Live Demo</a>
-          <a class="project-link" href="https://github.com/nickfff-dev/frontend-engineer-eval/tree/phase2" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-            Source
-          </a>
-        </div>
-      </div>
-
-      <div class="project-card fade-in">
-        <div class="project-num">08</div>
-        <div class="project-name">AI Image Upscaler</div>
-        <div class="project-desc">A web-based AI image upscaling tool that integrates with ML upscaling models to enhance image resolution. Handles upload, server-side processing pipeline, and delivery of enhanced images — bridging ML capability with a usable web interface.</div>
-        <div class="project-tags">
-          <span class="tag">Python</span>
-          <span class="tag">AI/ML</span>
-          <span class="tag">Image processing</span>
-          <span class="tag">API</span>
-        </div>
-        <div class="project-links">
-          <a class="project-link" href="https://github.com/nickfff-dev/ai-image-upscaling" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-            Source
-          </a>
-        </div>
-      </div>
-
-      <div class="project-card fade-in">
-        <div class="project-num">09</div>
-        <div class="project-name">Inspection Report Generator</div>
-        <div class="project-desc">Automates the generation of professional property dimensions inspection reports from structured input data. Eliminates manual report writing for field inspectors — outputting formatted PDFs with measurements, observations, and compliance notes.</div>
-        <div class="project-tags">
-          <span class="tag">Node.js</span>
-          <span class="tag">PDF generation</span>
-          <span class="tag">Automation</span>
-          <span class="tag">Templates</span>
-        </div>
-        <div class="project-links">
-          <a class="project-link" href="https://github.com/nickfff-dev/dimensions-inspection-report-generator" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-            Source
-          </a>
-        </div>
-      </div>
-
-      <div class="project-card fade-in">
-        <div class="project-num">10</div>
-        <div class="project-name">Online Book Store</div>
-        <div class="project-desc">A full-stack e-commerce platform for books with product catalog, search, cart, and order management. Built with a clean REST API backend and a responsive React storefront, covering the full purchase flow from browse to checkout.</div>
-        <div class="project-tags">
-          <span class="tag">React</span>
-          <span class="tag">Node.js</span>
-          <span class="tag">E-commerce</span>
-          <span class="tag">REST API</span>
-        </div>
-        <div class="project-links">
-          <a class="project-link" href="https://github.com/nickfff-dev/OnlineBookStore" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
-            Source
-          </a>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- SKILLS -->
-<section id="skills">
-  <div class="container">
-    <div class="fade-in">
-      <p class="section-label">Technical Stack</p>
-      <h2 class="section-title">Skills & Tools</h2>
-    </div>
-    <div class="skills-grid">
-      <div class="skill-group fade-in">
-        <div class="skill-group-title">Backend</div>
-        <ul class="skill-list">
-          <li>Node.js / Express</li>
-          <li>Python / Flask</li>
-          <li>Rust</li>
-          <li>C (systems)</li>
-          <li>REST API design</li>
-          <li>Background workers / queues</li>
-        </ul>
-      </div>
-      <div class="skill-group fade-in">
-        <div class="skill-group-title">Frontend</div>
-        <ul class="skill-list">
-          <li>React / TypeScript</li>
-          <li>Modern CSS / Tailwind</li>
-          <li>State management</li>
-          <li>Responsive design</li>
-          <li>Performance optimization</li>
-        </ul>
-      </div>
-      <div class="skill-group fade-in">
-        <div class="skill-group-title">DevOps & Cloud</div>
-        <ul class="skill-list">
-          <li>Docker / Kubernetes</li>
-          <li>AWS / GCP / DigitalOcean</li>
-          <li>GitHub Actions</li>
-          <li>Jenkins / GitLab CI</li>
-          <li>Ansible / Puppet / Chef</li>
-          <li>Nginx / HAProxy</li>
-        </ul>
-      </div>
-      <div class="skill-group fade-in">
-        <div class="skill-group-title">Data & Storage</div>
-        <ul class="skill-list">
-          <li>PostgreSQL / MySQL</li>
-          <li>MongoDB / Redis</li>
-          <li>SQLAlchemy / ORMs</li>
-          <li>Database design</li>
-          <li>Query optimization</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- EXPERIENCE -->
-<section id="experience">
-  <div class="container">
-    <div class="fade-in">
-      <p class="section-label">Work History</p>
-      <h2 class="section-title">Experience</h2>
-    </div>
-    <div class="experience-list">
-
-      <div class="exp-item fade-in">
-        <div class="exp-meta">
-          <div class="exp-period">2022 — 2025</div>
-          <div class="exp-company">E.T. Technology Enterprises</div>
-        </div>
-        <div>
-          <div class="exp-role">Lead Engineer</div>
-          <ul class="exp-points">
-            <li>Led end-to-end development, deployment, and maintenance of multiple production web applications and cloud servers.</li>
-            <li>Integrated open-source tools into production workflows, reducing software licensing costs by 50%.</li>
-            <li>Architected scalable backend systems with CI/CD pipelines for reliable, zero-downtime deployments.</li>
-            <li>Supported internal teams in adopting ICT tools and improving system usage efficiency.</li>
-            <li>Managed cloud infrastructure across AWS and DigitalOcean, including containerized deployments with Docker and Kubernetes.</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="exp-item fade-in">
-        <div class="exp-meta">
-          <div class="exp-period">2018 — Present</div>
-          <div class="exp-company">Independent</div>
-        </div>
-        <div>
-          <div class="exp-role">Freelance Full-Stack Developer</div>
-          <ul class="exp-points">
-            <li>Built and maintained custom web applications and REST APIs for clients sourced from platforms including Reddit and direct referrals.</li>
-            <li>Delivered WordPress sites with advanced customizations — custom post types, referral systems, SEO, and plugin development.</li>
-            <li>Collaborated with distributed teams to deploy cloud-based solutions on time and within scope.</li>
-            <li>Provided technical guidance and clear documentation for non-technical stakeholders.</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="exp-item fade-in">
-        <div class="exp-meta">
-          <div class="exp-period">2016 — 2025</div>
-          <div class="exp-company">Jumia Kenya / Uganda</div>
-        </div>
-        <div>
-          <div class="exp-role">Senior Content Officer</div>
-          <ul class="exp-points">
-            <li>Managed website frontend product display and ensured accurate, high-quality product representation at scale.</li>
-            <li>Developed and maintained advanced Excel-based KPI trackers that improved reporting accuracy across teams.</li>
-            <li>Coordinated cross-functional workflows, improving operational communication and reducing errors in live product data.</li>
-          </ul>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- WORDPRESS -->
-<section id="wordpress">
-  <div class="container">
-    <div class="fade-in">
-      <p class="section-label">Platform Expertise</p>
-      <h2 class="section-title">WordPress Development</h2>
-      <p style="color: var(--text-muted); font-size: 13px; max-width: 560px; margin-bottom: 1rem;">Beyond custom frameworks — I build and maintain real-world WordPress deployments with full custom engineering, not just theme installations.</p>
-    </div>
-    <div class="wp-grid fade-in">
-      <div class="wp-card">
-        <div class="wp-card-title">UI & Page Building</div>
-        <div class="wp-card-text">
-          Proficient in building polished frontend layouts using:
-          <ul>
-            <li>Elementor (including Pro)</li>
-            <li>Beaver Builder, Divi, and similar builders</li>
-            <li>Custom block patterns and full-site editing</li>
-            <li>Mobile-first, accessible design across all builders</li>
-          </ul>
-        </div>
-      </div>
-      <div class="wp-card">
-        <div class="wp-card-title">Custom Development</div>
-        <div class="wp-card-text">
-          Engineering under the hood:
-          <ul>
-            <li>Custom Post Types (CPTs) with custom meta fields</li>
-            <li>Custom plugin development and modification</li>
-            <li>PHP hooks, filters, and theme function overrides</li>
-            <li>WooCommerce customization and payment integration</li>
-          </ul>
-        </div>
-      </div>
-      <div class="wp-card">
-        <div class="wp-card-title">Full-Site Setup & Operations</div>
-        <div class="wp-card-text">
-          End-to-end ownership from zero:
-          <ul>
-            <li>Server provisioning — DigitalOcean, Hostinger, cPanel</li>
-            <li>WordPress installation, theme setup, and hardening</li>
-            <li>SSL, DNS, redirects, caching (WP Rocket, LiteSpeed)</li>
-            <li>Staging environments and backup workflows</li>
-          </ul>
-        </div>
-      </div>
-      <div class="wp-card">
-        <div class="wp-card-title">SEO, Performance & Growth</div>
-        <div class="wp-card-text">
-          Long-term site health and conversion:
-          <ul>
-            <li>On-page SEO via Yoast / Rank Math</li>
-            <li>Core Web Vitals optimization</li>
-            <li>Referral and affiliate system integration</li>
-            <li>Ongoing maintenance, updates, and performance tuning</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- EDUCATION -->
-<section id="education">
-  <div class="container">
-    <div class="fade-in">
-      <p class="section-label">Education</p>
-      <h2 class="section-title">Training</h2>
-    </div>
-    <div class="edu-block fade-in">
-      <div>
-        <div class="edu-title">ALX Software Engineering</div>
-        <div class="edu-sub">Backend track — intensive program covering systems programming, full-stack development, DevOps, and cloud infrastructure. Formerly Holberton School.</div>
-      </div>
-      <div class="edu-period">Feb 2023 — Dec 2024</div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact">
-  <div class="container">
-    <div class="contact-inner fade-in">
-      <p class="section-label" style="text-align:center;">Let's work together</p>
-      <h2 class="contact-headline">Ready to build<br>something real?</h2>
-      <p class="contact-sub">I'm open to full-time roles, contract work, and interesting freelance projects. If you need production systems built properly, let's talk.</p>
-      <a class="btn-primary" href="mailto:qendev87@gmail.com">qendev87@gmail.com</a>
-      <div class="contact-links">
-        <a class="contact-link" href="https://github.com/nickfff-dev" target="_blank" rel="noopener">GitHub</a>
-        <a class="contact-link" href="https://www.linkedin.com/in/nickson-makori-8a442320a" target="_blank" rel="noopener">LinkedIn</a>
-        <a class="contact-link" href="https://calendly.com/qendev87/30min" target="_blank" rel="noopener">Book a call</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <span>© 2025 Nickson — Software Engineer</span>
-  <span style="color: var(--text-dim);">Built with HTML, CSS & precision.</span>
-</footer>
-
-<script>
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Nickson | Full-Stack & Backend Software Engineer</title>
+    <meta
+      name="description"
+      content="Full-stack engineer with 7+ years shipping production web systems, cloud infrastructure and automation. Open to full-time and contract roles."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@600;800&family=IBM+Plex+Mono:wght@400;500&family=Montserrat&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0b0b0b;
+        --panel: #131313;
+        --line: #232323;
+        --text: #e9e5dc;
+        --mute: #8d8a82;
+        --acc: #c6ff3d;
       }
-    });
-  }, { threshold: 0.12 });
-
-  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-</script>
-</body>
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font:
+          15px/1.65 "Montserrat",
+          ui-monospace,
+          Menlo,
+          monospace;
+      }
+      a {
+        color: inherit;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: Syne, system-ui, sans-serif;
+        margin: 0;
+        line-height: 1.05;
+      }
+      .wrap {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        background: rgba(11, 11, 11, 0.92);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid var(--line);
+      }
+      nav .wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 60px;
+        gap: 16px;
+      }
+      nav ul {
+        display: flex;
+        gap: 24px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        font-size: 13px;
+      }
+      nav ul a {
+        text-decoration: none;
+        color: var(--mute);
+      }
+      nav ul a:hover {
+        color: var(--text);
+      }
+      .logo {
+        font-family: Syne;
+        font-weight: 800;
+        color: var(--acc);
+        text-decoration: none;
+      }
+      .btn {
+        display: inline-block;
+        background: var(--acc);
+        color: #0b0b0b;
+        padding: 10px 18px;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 13px;
+        border: 1px solid var(--acc);
+      }
+      .btn.ghost {
+        background: transparent;
+        color: var(--text);
+        border-color: #3a3a3a;
+      }
+      .hero {
+        padding: 96px 0 72px;
+      }
+      .badge {
+        display: inline-block;
+        border: 1px solid #3c4a1a;
+        color: var(--acc);
+        padding: 4px 12px;
+        font-size: 12px;
+        margin-bottom: 28px;
+      }
+      h1 {
+        font-size: clamp(40px, 7.5vw, 88px);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        max-width: 900px;
+      }
+      h1 em {
+        font-style: normal;
+        color: var(--acc);
+      }
+      .lead {
+        max-width: 600px;
+        color: var(--mute);
+        margin: 28px 0 32px;
+      }
+      .cta {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .stats {
+        display: flex;
+        gap: 48px;
+        flex-wrap: wrap;
+        margin-top: 64px;
+        padding-top: 28px;
+        border-top: 1px solid var(--line);
+      }
+      .stats b {
+        font-family: Syne;
+        font-size: 34px;
+        color: var(--acc);
+        display: block;
+        line-height: 1;
+      }
+      .stats span {
+        font-size: 12px;
+        color: var(--mute);
+      }
+      section {
+        padding: 80px 0;
+        border-top: 1px solid var(--line);
+      }
+      h2 {
+        font-size: clamp(30px, 4.5vw, 48px);
+        font-weight: 600;
+        margin-bottom: 14px;
+      }
+      .sub {
+        color: var(--mute);
+        max-width: 620px;
+        margin: 0 0 40px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 20px;
+      }
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        display: flex;
+        flex-direction: column;
+      }
+      .card img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-bottom: 1px solid var(--line);
+        background: #000;
+      }
+      .cb {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        flex: 1;
+      }
+      .cat {
+        font-size: 12px;
+        color: var(--acc);
+      }
+      .card h3 {
+        font-size: 22px;
+      }
+      .card p {
+        margin: 0;
+        color: var(--mute);
+        font-size: 13.5px;
+      }
+      .tags {
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        padding: 0;
+        margin: 4px 0 0;
+      }
+      .tags li {
+        border: 1px solid var(--line);
+        padding: 2px 8px;
+        font-size: 11px;
+        color: var(--mute);
+      }
+      .links {
+        display: flex;
+        gap: 18px;
+        margin-top: auto;
+        padding-top: 12px;
+        font-size: 13px;
+      }
+      .links a {
+        text-decoration: none;
+        color: var(--acc);
+      }
+      .links a + a {
+        color: var(--mute);
+      }
+      .links a:hover {
+        text-decoration: underline;
+      }
+      .cols {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 20px;
+      }
+      .box {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        padding: 22px;
+      }
+      .box h3 {
+        font-size: 16px;
+        margin-bottom: 12px;
+        color: var(--acc);
+      }
+      .box ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        font-size: 13.5px;
+        color: var(--mute);
+      }
+      .box li {
+        padding: 5px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .box li:last-child {
+        border: 0;
+      }
+      .job {
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        gap: 28px;
+        padding: 28px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .job:first-of-type {
+        padding-top: 0;
+      }
+      .job .when {
+        font-size: 12.5px;
+        color: var(--mute);
+      }
+      .job h3 {
+        font-size: 21px;
+        margin-bottom: 12px;
+      }
+      .job ul {
+        margin: 0;
+        padding-left: 18px;
+        color: var(--mute);
+        font-size: 13.5px;
+      }
+      .job li {
+        margin-bottom: 6px;
+      }
+      .edu {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+        gap: 28px;
+        align-items: center;
+      }
+      .edu img {
+        width: 100%;
+        border: 1px solid var(--line);
+      }
+      .contact {
+        text-align: center;
+      }
+      .contact h2 {
+        margin-inline: auto;
+        max-width: 700px;
+      }
+      .contact .sub {
+        margin-inline: auto;
+      }
+      .contact .cta {
+        justify-content: center;
+      }
+      footer {
+        padding: 28px 0;
+        border-top: 1px solid var(--line);
+        color: var(--mute);
+        font-size: 12px;
+      }
+      a:focus-visible,
+      .btn:focus-visible {
+        outline: 2px solid var(--acc);
+        outline-offset: 3px;
+      }
+      @media (max-width: 720px) {
+        nav ul {
+          display: none;
+        }
+        .job {
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
+        .edu {
+          grid-template-columns: 1fr;
+        }
+        .hero {
+          padding: 64px 0 48px;
+        }
+        .stats {
+          gap: 28px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="wrap">
+        <a class="logo" href="#top">NN</a>
+        <ul>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#wordpress">WordPress</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <a class="btn" href="mailto:qendev87@gmail.com">Hire me</a>
+      </div>
+    </nav>
+    <header class="hero" id="top">
+      <div class="wrap">
+        <span class="badge">Available for full-time and contract roles</span>
+        <h1>Backend systems that <em>actually ship.</em></h1>
+        <p class="lead">
+          I'm Nickson, a full-stack engineer with 7+ years building and running
+          production web systems: APIs, payment flows, cloud infrastructure,
+          automation and high-converting WordPress sites. I ship working
+          products, not demos.
+        </p>
+        <div class="cta">
+          <a class="btn" href="#projects">View my work</a
+          ><a class="btn ghost" href="https://github.com/nickfff-dev">GitHub</a>
+        </div>
+        <div class="stats">
+          <div><b>7+</b><span>years shipping software</span></div>
+          <div><b>19</b><span>projects in this portfolio</span></div>
+          <div><b>50%</b><span>licensing cost cut via open source</span></div>
+          <div><b>5+</b><span>cloud and hosting platforms</span></div>
+        </div>
+      </div>
+    </header>
+    <section id="projects">
+      <div class="wrap">
+        <h2>Projects and repositories</h2>
+        <p class="sub">
+          Recent client and product work first, then backend and open-source
+          engineering. Each project links to a Link and its source.
+        </p>
+        <div class="grid">
+          <article class="card">
+            <img
+              src="assets/projects/maren.jpg"
+              alt="Maren screenshot"
+              loading="lazy"
+              width="1000"
+              height="625"
+            />
+            <div class="cb">
+              <span class="cat">Product launch site</span>
+              <h3>Maren</h3>
+              <p>
+                Pre-launch site for a perimenopause symptom-tracking app.
+                Reserve-your-spot flow with a refundable $5 deposit,
+                founder-pricing messaging, FAQ and a free-list email capture.
+              </p>
+              <ul class="tags">
+                <li>Landing page</li>
+                <li>Payments flow</li>
+                <li>Waitlist</li>
+                <li>Responsive</li>
+              </ul>
+              <div class="links">
+                <a href="https://gomaren.com/" data-placeholder="GoMaren"
+                  >Link</a
+                >
+              </div>
+            </div>
+          </article>
+          <article class="card">
+            <img
+              src="assets/projects/glow.jpg"
+              alt="GLP Glow screenshot"
+              loading="lazy"
+              width="1000"
+              height="625"
+            />
+            <div class="cb">
+              <span class="cat">Product launch site</span>
+              <h3>GLP Glow</h3>
+              <p>
+                Early-access site for an AI beauty-and-wellness companion for
+                women on GLP-1 medication. Daily Glow score concept, four-step
+                explainer and email capture.
+              </p>
+              <ul class="tags">
+                <li>Landing page</li>
+                <li>Email capture</li>
+                <li>Responsive UI</li>
+              </ul>
+              <div class="links">
+                <a href="https://glow.appachino.com/" data-placeholder="GlpGlow"
+                  >Link</a
+                >
+              </div>
+            </div>
+          </article>
+          <article class="card">
+            <img
+              src="assets/projects/casestreak.jpg"
+              alt="CaseStreak screenshot"
+              loading="lazy"
+              width="1000"
+              height="625"
+            />
+            <div class="cb">
+              <span class="cat">Product launch site</span>
+              <h3>CaseStreak</h3>
+              <p>
+                Waitlist site for a daily timed case-interview practice app
+                aimed at consulting and IB recruiting. Animated two-minute timer
+                hero and founding-member pricing capture.
+              </p>
+              <ul class="tags">
+                <li>Landing page</li>
+                <li>Waitlist</li>
+                <li>Animation</li>
+              </ul>
+              <div class="links">
+                <a
+                  href="https://haydenlabs.org/casestreak/"
+                  data-placeholder="Casestreak"
+                  >Link</a
+                >
+              </div>
+            </div>
+          </article>
+          <article class="card">
+            <img
+              src="assets/projects/collectcat.jpg"
+              alt="CollectCat screenshot"
+              loading="lazy"
+              width="1000"
+              height="625"
+            />
+            <div class="cb">
+              <span class="cat">Product launch site</span>
+              <h3>CollectCat</h3>
+              <p>
+                Landing page and dashboard mockup for a tool that chases unpaid
+                freelancer invoices on a day-3 / day-7 / day-14 escalation.
+                Positions integrations with Stripe, QuickBooks, FreshBooks and
+                Wave.
+              </p>
+              <ul class="tags">
+                <li>Landing page</li>
+                <li>Dashboard UI</li>
+                <li>Waitlist</li>
+              </ul>
+              <div class="links">
+                <a
+                  href="https://haydenlabs.org/collectcat"
+                  data-placeholder="Collect Cat"
+                  >Link</a
+                >
+              </div>
+            </div>
+          </article>
+          <article class="card">
+            <img
+              src="assets/projects/mealmark.jpg"
+              alt="MealMark screenshot"
+              loading="lazy"
+              width="1000"
+              height="625"
+            />
+            <div class="cb">
+              <span class="cat">Product launch site</span>
+              <h3>MealMark</h3>
+              <p>
+                Early-access site for an IBS meal and symptom tracker that
+                surfaces recurring trigger foods and exports a summary for
+                clinicians. Includes an interactive-style log and pattern
+                preview.
+              </p>
+              <ul class="tags">
+                <li>Landing page</li>
+                <li>Product UI mockup</li>
+                <li>Waitlist</li>
+              </ul>
+              <div class="links">
+                <a
+                  href="https://haydenlabs.org/mealmark"
+                  data-placeholder="MealMark"
+                  >Link</a
+                >
+              </div>
+            </div>
+          </article>
+          <article class="card">
+            <img
+              src="assets/projects/sipbuddy.jpg"
+              alt="SipBuddy screenshot"
+              loading="lazy"
+              width="1000"
+              height="625"
+            />
+            <div class="cb">
+              <span class="cat">Product launch site</span>
+              <h3>SipBuddy</h3>
+              <p>
+                Waitlist site for an adaptive hydration-reminder app, with a
+                dashboard preview showing intake, streak and goal tracking.
+              </p>
+              <ul class="tags">
+                <li>Landing page</li>
+                <li>Dashboard UI</li>
+                <li>Waitlist</li>
+              </ul>
+              <div class="links">
+                <a
+                  href="https://haydenlabs.org/sipbuddy"
+                  data-placeholder="Sip Buddy"
+                  >Link</a
+                >
+              </div>
+            </div>
+          </article>
+          <article class="card">
+            <img
+              src="assets/projects/dentco.jpg"
+              alt="Dentco Auto Body screenshot"
+              loading="lazy"
+              width="1000"
+              height="625"
+            />
+            <div class="cb">
+              <span class="cat">WordPress / SEO</span>
+              <h3>Dentco Auto Body</h3>
+              <p>
+                Conversion-focused local-SEO landing pages for an Orange County
+                auto body shop: service-area pages, trust stats, estimate CTAs
+                and driving-route content. Managed on WordPress with Elementor,
+                Rank Math and server-level caching.
+              </p>
+              <ul class="tags">
+                <li>WordPress</li>
+                <li>Elementor</li>
+                <li>Rank Math SEO</li>
+                <li>Local SEO</li>
+              </ul>
+              <div class="links">
+                <a href="#" data-placeholder="https://dentco.us/dentco">Link</a>
+              </div>
+            </div>
+          </article>
+          <article class="card">
+            <img
+              src="assets/projects/funzo.jpg"
+              alt="FunzoCoin Kids screenshot"
+              loading="lazy"
+              width="1000"
+              height="625"
+            />
+            <div class="cb">
+              <span class="cat">Full-stack platform</span>
+              <h3>FunzoCoin Kids</h3>
+              <p>
+                Platform for an education initiative teaching African youth AI,
+                finance and digital safety. Program, events, partner and
+                investor sections; backend moved from Supabase to PostgreSQL
+                behind a custom Express server.
+              </p>
+              <ul class="tags">
+                <li>React</li>
+                <li>TypeScript</li>
+                <li>Express</li>
+                <li>PostgreSQL</li>
+              </ul>
+              <div class="links">
+                <a
+                  href="http://funzocoinkids.com/"
+                  data-placeholder="FunzoCoin Kids"
+                  >Link</a
+                >
+              </div>
+            </div>
+          </article>
+          <article class="card">
+            <img
+              src="assets/projects/duplicator.jpg"
+              alt="Catalogue Design Duplicator screenshot"
+              loading="lazy"
+              width="1000"
+              height="625"
+            />
+            <div class="cb">
+              <span class="cat">API integration</span>
+              <h3>Catalogue Design Duplicator</h3>
+              <p>
+                Developer tool that integrates with the Canva Connect API: OAuth
+                2.0 with PKCE and token refresh, brand-template browsing, JSON
+                autofill jobs with status polling, and multi-format export.
+              </p>
+              <ul class="tags">
+                <li>Next.js</li>
+                <li>TypeScript</li>
+                <li>OAuth 2.0 / PKCE</li>
+                <li>Canva API</li>
+                <li>Tailwind</li>
+              </ul>
+              <div class="links">
+                <a
+                  href="http://design-duplicator.vercel.app/"
+                  data-placeholder="Catalogue Design Duplicator"
+                  >Link</a
+                >
+              </div>
+            </div>
+          </article>
+          <article class="card">
+            <img
+              src="assets/projects/catcha.jpg"
+              alt="Catcha Flight screenshot"
+              loading="lazy"
+              width="1000"
+              height="625"
+            />
+            <div class="cb">
+              <span class="cat">Full-stack app</span>
+              <h3>Catcha Flight</h3>
+              <p>
+                Flight comparison engine (SkyProwl UI) that searches routes,
+                sorts by price, filters nonstop and carry-on fares, shows CO2
+                per itinerary and exports results to CSV.
+              </p>
+              <ul class="tags">
+                <li>Python</li>
+                <li>APIs</li>
+                <li>Caching</li>
+                <li>React</li>
+              </ul>
+              <div class="links">
+                <a
+                  href="https://catcha-flight.vercel.app/"
+                  data-placeholder="Catcha Flight"
+                  >Link</a
+                >
+              </div>
+            </div>
+          </article>
+          <article class="card">
+            <img
+              src="assets/projects/granttracker.jpg"
+              alt="Grant Tracker screenshot"
+              loading="lazy"
+              width="1000"
+              height="625"
+            />
+            <div class="cb">
+              <span class="cat">Full-stack app</span>
+              <h3>Grant Tracker</h3>
+              <p>
+                Grant lifecycle dashboard for nonprofits: total funds, project
+                counts, delayed-project flags, per-program budget and progress
+                bars, status badges and a live updates feed. Replaces
+                spreadsheet workflows.
+              </p>
+              <ul class="tags">
+                <li>React</li>
+                <li>Node.js</li>
+                <li>PostgreSQL</li>
+                <li>Dashboard</li>
+                <li>Discord</li>
+              </ul>
+              <div class="links">
+                <a
+                  href="https://granttrackerv1.vercel.app/"
+                  data-placeholder="Grant Tracker"
+                  >Link</a
+                >
+              </div>
+            </div>
+          </article>
+          <article class="card">
+            <img
+              src="assets/projects/microtasks.jpg"
+              alt="Microtasks App screenshot"
+              loading="lazy"
+              width="1000"
+              height="625"
+            />
+            <div class="cb">
+              <span class="cat">Frontend engineering</span>
+              <h3>Microtasks App</h3>
+              <p>
+                Admin console for a paid micro-task platform: task composer,
+                task management, submission review, user management, activity
+                feed and system-status panel.
+              </p>
+              <ul class="tags">
+                <li>React</li>
+                <li>TypeScript</li>
+                <li>State management</li>
+                <li>DnD</li>
+              </ul>
+              <div class="links">
+                <a
+                  href="https://microtasks.vercel.app/"
+                  data-placeholder="Microtasks App"
+                  >Link</a
+                >
+              </div>
+            </div>
+          </article>
+          <article class="card">
+            <img
+              src="assets/projects/easybets.png"
+              alt="Microtasks App screenshot"
+              loading="lazy"
+              width="1000"
+              height="625"
+            />
+            <div class="cb">
+              <span class="cat">Full-stack app</span>
+              <h3>EasyBets Platform</h3>
+              <p>
+                Sports betting application with live odds, bet slip, account
+                management and secure transaction flows, built around payment
+                integration and high-concurrency state.
+              </p>
+              <ul class="tags">
+                <li>React</li>
+                <li>Node.js</li>
+                <li>Payments</li>
+                <li>Real-time</li>
+              </ul>
+              <div class="links">
+                <a
+                  href="https://easybets.vercel.app/"
+                  data-placeholder="EasyBets Platform"
+                  >Link</a
+                >
+              </div>
+            </div>
+          </article>
+          <article class="card">
+            <img
+              src="assets/projects/algo.jpg"
+              alt="Algorithm Visualizer screenshot"
+              loading="lazy"
+              width="1000"
+              height="625"
+            />
+            <div class="cb">
+              <span class="cat">Interactive tool</span>
+              <h3>Algorithm Visualizer</h3>
+              <p>
+                Animated visual learning tool for sorting algorithms with
+                selectable data structure and algorithm, adjustable array size
+                and speed, and colour-coded comparisons and swaps.
+              </p>
+              <ul class="tags">
+                <li>React</li>
+                <li>JavaScript</li>
+                <li>Animation</li>
+                <li>Vercel</li>
+              </ul>
+              <div class="links">
+                <a
+                  href="https://algo-visual-two.vercel.app/"
+                  data-placeholder="Algorithm Visualizer"
+                  >Link</a
+                ><a
+                  href="https://github.com/nickfff-dev/algo_visual"
+                  data-placeholder="Algorithm Visualizer"
+                  >Source</a
+                >
+              </div>
+            </div>
+          </article>
+          <article class="card">
+            <div class="cb">
+              <span class="cat">Backend systems</span>
+              <h3>AirBnB Clone v2</h3>
+              <p>
+                AirBnB replica with a custom Python/Flask framework, MySQL
+                persistence via SQLAlchemy, a pluggable file/DB storage engine,
+                REST API and HAProxy load balancing across web servers.
+              </p>
+              <ul class="tags">
+                <li>Python</li>
+                <li>Flask</li>
+                <li>MySQL</li>
+                <li>HAProxy</li>
+                <li>SQLAlchemy</li>
+              </ul>
+              <div class="links">
+                <a
+                  href="https://github.com/nickfff-dev/AirBnB_clone_v2"
+                  data-placeholder="AirBnB Clone v2"
+                  >Source</a
+                >
+              </div>
+            </div>
+          </article>
+          <article class="card">
+            <div class="cb">
+              <span class="cat">Backend systems</span>
+              <h3>Files Manager API</h3>
+              <p>
+                File management platform: token-based auth backed by Redis,
+                upload/download, permissions, and background thumbnail
+                generation through Bull queues, with metadata stored in MongoDB.
+              </p>
+              <ul class="tags">
+                <li>Node.js</li>
+                <li>Redis</li>
+                <li>MongoDB</li>
+                <li>Bull</li>
+                <li>REST API</li>
+              </ul>
+              <div class="links">
+                <a
+                  href="https://github.com/nickfff-dev/alx-files_manager"
+                  data-placeholder="Files Manager API"
+                  >Source</a
+                >
+              </div>
+            </div>
+          </article>
+          <article class="card">
+            <div class="cb">
+              <span class="cat">AI / ML</span>
+              <h3>AI Image Upscaler</h3>
+              <p>
+                Web tool that upscales images with ML models: upload,
+                server-side processing pipeline and delivery of enhanced output.
+              </p>
+              <ul class="tags">
+                <li>Python</li>
+                <li>AI/ML</li>
+                <li>Image processing</li>
+                <li>API</li>
+              </ul>
+              <div class="links">
+                <a
+                  href="https://github.com/nickfff-dev/ai-image-upscaling"
+                  data-placeholder="AI Image Upscaler"
+                  >Source</a
+                >
+              </div>
+            </div>
+          </article>
+          <article class="card">
+            <div class="cb">
+              <span class="cat">Automation</span>
+              <h3>Inspection Report Generator</h3>
+              <p>
+                Turns structured property-measurement data into formatted PDF
+                inspection reports using templates, replacing manual report
+                writing for field inspectors.
+              </p>
+              <ul class="tags">
+                <li>Node.js</li>
+                <li>PDF generation</li>
+                <li>Templates</li>
+                <li>Automation</li>
+              </ul>
+              <div class="links">
+                <a
+                  href="https://github.com/nickfff-dev/dimensions-inspection-report-generator"
+                  data-placeholder="Inspection Report Generator"
+                  >Source</a
+                >
+              </div>
+            </div>
+          </article>
+          <article class="card">
+            <div class="cb">
+              <span class="cat">Full-stack app</span>
+              <h3>Online Book Store</h3>
+              <p>
+                E-commerce platform for books: catalog, search, cart and order
+                management on a REST API with a responsive React storefront
+                covering browse-to-checkout.
+              </p>
+              <ul class="tags">
+                <li>React</li>
+                <li>Node.js</li>
+                <li>REST API</li>
+                <li>E-commerce</li>
+              </ul>
+              <div class="links">
+                <a
+                  href="https://github.com/nickfff-dev/dimensions-inspection-report-generator"
+                  data-placeholder="Online Book Store"
+                  >Source</a
+                >
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+    <section id="skills">
+      <div class="wrap">
+        <h2>Skills and tools</h2>
+        <p class="sub">
+          Backend-first, comfortable across the stack and through to deployment.
+        </p>
+        <div class="cols">
+          <div class="box">
+            <h3>Backend</h3>
+            <ul>
+              <li>Node.js / Express</li>
+              <li>Python / Flask</li>
+              <li>Rust, C and C++</li>
+              <li>REST API design</li>
+              <li>Bash scripting and Linux</li>
+              <li>Background workers and queues</li>
+            </ul>
+          </div>
+          <div class="box">
+            <h3>Frontend</h3>
+            <ul>
+              <li>React / TypeScript / Next.js</li>
+              <li>Shadcnui, Tailwind, and modern CSS</li>
+              <li>State management</li>
+              <li>Responsive design</li>
+              <li>Performance optimization</li>
+            </ul>
+          </div>
+          <div class="box">
+            <h3>Cloud and DevOps</h3>
+            <ul>
+              <li>Docker / Kubernetes</li>
+              <li>AWS / GCP / DigitalOcean</li>
+              <li>GitHub Actions / Jenkins / GitLab CI</li>
+              <li>Ansible / Puppet / Chef</li>
+              <li>Nginx / HAProxy</li>
+            </ul>
+          </div>
+          <div class="box">
+            <h3>Data and storage</h3>
+            <ul>
+              <li>PostgreSQL / MySQL</li>
+              <li>MongoDB / Redis</li>
+              <li>SQLAlchemy / ORMs</li>
+              <li>Database design</li>
+              <li>Query optimization</li>
+            </ul>
+          </div>
+          <div class="box">
+            <h3>Automation and integrations</h3>
+            <ul>
+              <li>Python automation and web scraping</li>
+              <li>Selenium workflows</li>
+              <li>OAuth 2.0 and third-party APIs</li>
+              <li>Payment integration</li>
+              <li>PDF and report generation</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="experience">
+      <div class="wrap">
+        <h2>Experience</h2>
+        <p class="sub">
+          Lead engineering, long-running freelance delivery and operations
+          experience at scale.
+        </p>
+        <div class="job">
+          <div class="when">
+            2022 to 2025<br />E.T. Technology Enterprises (Remote)
+          </div>
+          <div>
+            <h3>Lead Engineer</h3>
+            <ul>
+              <li>
+                Led end-to-end development, deployment and maintenance of
+                multiple production web applications and cloud servers.
+              </li>
+              <li>
+                Replaced paid tooling with open-source alternatives in
+                production workflows, cutting software licensing costs by 50%.
+              </li>
+              <li>
+                Designed scalable backend systems with CI/CD pipelines for
+                reliable, zero-downtime deployments.
+              </li>
+              <li>
+                Ran infrastructure on AWS and DigitalOcean, including
+                containerized deployments with Docker and Kubernetes.
+              </li>
+              <li>
+                Trained internal teams on ICT tooling, improving system adoption
+                and efficiency.
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="job">
+          <div class="when">2018 to present<br />Independent</div>
+          <div>
+            <h3>Freelance Full-Stack Developer</h3>
+            <ul>
+              <li>
+                Deliver custom web applications, REST APIs, automation and
+                WordPress builds for clients sourced through Reddit and direct
+                referrals.
+              </li>
+              <li>
+                Recent work: Canva API integration, PostgreSQL migration for a
+                React/TypeScript platform, Python automation and local-SEO
+                sites.
+              </li>
+              <li>
+                Work with distributed teams to ship cloud-based solutions on
+                time and within scope.
+              </li>
+              <li>
+                Translate technical decisions into clear documentation for
+                non-technical stakeholders.
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="job">
+          <div class="when">2016 to 2025<br />Jumia Kenya / Uganda</div>
+          <div>
+            <h3>Senior Content Officer</h3>
+            <ul>
+              <li>
+                Owned frontend product display and data accuracy for a large
+                e-commerce catalog.
+              </li>
+              <li>
+                Built advanced Excel KPI trackers that improved reporting
+                accuracy across teams.
+              </li>
+              <li>
+                Coordinated cross-functional workflows, reducing errors in live
+                product data.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="wordpress">
+      <div class="wrap">
+        <h2>WordPress development</h2>
+        <p class="sub">Full custom engineering, not just theme installs.</p>
+        <div class="cols">
+          <div class="box">
+            <h3>UI and page building</h3>
+            <ul>
+              <li>Elementor (incl. Pro), Beaver Builder, Divi</li>
+              <li>Custom block patterns and full-site editing</li>
+              <li>Mobile-first, accessible layouts</li>
+            </ul>
+          </div>
+          <div class="box">
+            <h3>Custom development</h3>
+            <ul>
+              <li>Custom post types with meta fields</li>
+              <li>Custom plugin development</li>
+              <li>PHP hooks, filters and theme overrides</li>
+              <li>WooCommerce and payment integration</li>
+            </ul>
+          </div>
+          <div class="box">
+            <h3>Setup and operations</h3>
+            <ul>
+              <li>Server provisioning: DigitalOcean, Hostinger, cPanel</li>
+              <li>Install, hardening, SSL, DNS, redirects</li>
+              <li>Caching: WP Rocket, LiteSpeed</li>
+              <li>Staging and backup workflows</li>
+            </ul>
+          </div>
+          <div class="box">
+            <h3>SEO and performance</h3>
+            <ul>
+              <li>On-page and local SEO: Yoast, Rank Math</li>
+              <li>Core Web Vitals optimization</li>
+              <li>Referral and affiliate systems</li>
+              <li>Ongoing maintenance and tuning</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="contact" id="contact">
+      <div class="wrap">
+        <h2>Ready to build something real?</h2>
+        <p class="sub">
+          Open to full-time roles, contracts and freelance projects. If you need
+          production systems built properly, let's talk.
+        </p>
+        <div class="cta">
+          <a class="btn" href="mailto:qendev87@gmail.com">qendev87@gmail.com</a
+          ><a class="btn ghost" href="https://github.com/nickfff-dev">GitHub</a
+          ><a
+            class="btn ghost"
+            href="https://www.linkedin.com/in/nickson-makori-8a442320a"
+            data-placeholder="LinkedIn"
+            >LinkedIn</a
+          ><a
+            class="btn ghost"
+            href="https://calendly.com/qendev87/30min"
+            data-placeholder="BOOKING_URL"
+            >Book a call</a
+          >
+        </div>
+      </div>
+    </section>
+    <footer>
+      <div class="wrap">&copy; 2026 Nickson, Software Engineer</div>
+    </footer>
+  </body>
 </html>
